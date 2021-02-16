@@ -1,5 +1,11 @@
 This document describes the voting system.
 
+Does this voting system already have a name?  What are your opinions of it?
+
+This is a voting system I had been thinking about.
+Please let me know what your thoughts are, and if this voting system already has a name, what is the name of it?  Thank you for your thoughts.
+To describe it, I wrote a description of how a program would be used to implement this voting system.  Here it goes.
+
 Choice is an object that stores the name of a given choice, as a string.
 The application will store each distinctly named choice in List<Choice> allTheNominations.
 Each user will be stored in List<User> users.
