@@ -8,75 +8,76 @@ To describe it, I wrote a description of how a program would be used to implemen
 
 Choice is an object that stores the name of a given choice, as a string.
 The application will store each distinctly named choice in List<Choice> allTheNominations.
-Each user will be stored in List<User> users.
+Each ballot will be stored in List<Ballot> ballots.
 
 For each user participating in the voting process, they have X desired choices stored in a List of size X called listOfOwnChoices, 
 with index 0 being their first and highest priority, and index 2 being their lowest priority.
 
-Users get to vote for any choice/nomination they come up with.
+Users get to vote for any choice/nomination they come up with.  User's ballots are anonymous.
 If a choice they want to include is not already in the list allTheNominations, then it gets added/nominated.  
 If it's already in the list, then it does not get added again.
-After all users have voted, numberOfNominations is calculated as the size of the allTheNominations list.
+After all users submitted their ballots casting their votes, numberOfNominations is calculated as the size of the allTheNominations list.
 Then, each user's first choice gets a value of numberOfNominations.
 Their second choice gets a value of numberOfNominations - 1 = numberOfNominations - indexOfTheirSecondChoice.
 Their third choice gets a value of maxChoiceNumber - 2 = numberOfNominations - indexOfTheirThirdChoice... until they are out of choices.
 
 For the final count, each possible choice gets their values from each voter added up.  Then, the choice with the highest number wins the vote.
-The choice with the second highest number wins the second highest vote.
+The choice with the second highest number wins the second highest vote, etc...
 
 In the event of a tie, this is done a second time but with only the choices involved in the tie.
 
-As an example, lets say we have 6 users, user 0, user 1, user 2, user 3, user 4, user 5
+As an example, lets say we have 6 users, user 0, user 1, user 2, user 3, user 4, user 5, 
+corresponding anonymously to 6 ballots, ballot 0, ballot 1, ballot 2, ballot 3, ballot 4, and ballot 5
 
 Their choices in order of highest desire to lowest desire is stored in a list listOfOwnChoices.
-user [0] (3 choices): {F, U, W}
-user [1] (6 choices): {S, E, U, W, H, Q}
-user [2] (4 choices): {W, E, H, U}
-user [3] (2 choices): {A, F}
-user [4] (1 choice) ; {C}
-user [5] (11 choices):{R, Y, Q, V, B, H, U, P, W, M, S}
+ballot[0] (3 choices): {F, U, W}
+ballot[1] (6 choices): {S, E, U, W, H, Q}
+ballot[2] (4 choices): {W, E, H, U}
+ballot[3] (2 choices): {A, F}
+ballot[4] (1 choice) ; {C}
+ballot[5] (11 choices):{R, Y, Q, V, B, H, U, P, W, M, S}
 
 all together, it includes these distinct choices: {F, U, W, S, E, H, Q, A, C, R, Y, V, B, P, M}
 
 Here is how the process goes.
 
-user[0] processes their vote:
+ballot[0] processes their vote:
 F: allTheNominations does not contain F, so allTheNominations gets F added to it.
 U: allTheNominations does not contain U, so allTheNominations gets U added to it.
 W: allTheNominations does not contain W, so allTheNominations gets W added to it.
-end of user[0]'s listOfOwnChoices has been reached.
+end of ballot[0]'s listOfOwnChoices has been reached.
 allTheNominations contains: {F, U, W}, with numberOfNominations = allTheNominations.Count = 3
 
-user[1] processes their vote:
+ballot[1] processes their vote:
 S: allTheNominations does not contain S, so allTheNominations gets S added to it.
 E: allTheNominations does not contain E, so allTheNominations gets E added to it.
 U: allTheNominations already contains U.
 W: allTheNominations already contains W.
 H: allTheNominations does not contain H, so allTheNominations gets H added to it.
 Q: allTheNominations does not contain Q, so allTheNominations gets Q added to it.
-end of user[1]'s listOfOwnChoices has been reached.
+end of ballot[1]'s listOfOwnChoices has been reached.
 allTheNominations contains: {F, U, W, S, E, H, Q}, with numberOfNominations = allTheNominations.Count = 7
 
-user[2] processes their vote:
+ballot[2] processes their vote:
 W: allTheNominations already contains W.
 E: allTheNominations already contains E.
 H: allTheNominations already contains H.
 U: allTheNominations already contains U.
-end of user[2]'s listOfOwnChoices has been reached.
+end of ballot[2]'s listOfOwnChoices has been reached.
 allTheNominations contains: {F, U, W, S, E, H, Q}, with numberOfNominations = allTheNominations.Count = 7
 
-user[3] processes their vote:
+ballot[3] processes their vote:
 A: allTheNominations does not contain A, so allTheNominations gets A added to it.
 F: allTheNominations already contains F.
-end of user[3]'s listOfOwnChoices has been reached.
+end of ballot[3]'s listOfOwnChoices has been reached.
 allTheNominations contains: {F, U, W, S, E, H, Q, A}, with numberOfNominations = allTheNominations.Count = 8
 
-user[4] processes their vote:
+ballot[4] processes their vote:
 C: allTheNominations does not contain C, so allTheNominations gets C added to it.
-end of user[4]'s listOfOwnChoices has been reached.
+end of ballot[4]'s listOfOwnChoices has been reached.
 allTheNominations contains: {F, U, W, S, E, H, Q, A, C}, with numberOfNominations = allTheNominations.Count = 9
 
-user[5] processes their vote:
+ballot[5] processes their vote:
 R: allTheNominations does not contain R, so allTheNominations gets R added to it.
 Y: allTheNominations does not contain Y, so allTheNominations gets Y added to it.
 Q: allTheNominations already contains Q.
@@ -88,7 +89,7 @@ P: allTheNominations does not contain P, so allTheNominations gets P added to it
 W: allTheNominations already contains W.
 M: allTheNominations does not contain M, so allTheNominations gets M added to it.
 S: allTheNominations already contains S.
-end of user[5]s listOfOwnChoices has ben reached.
+end of ballot[5]s listOfOwnChoices has ben reached.
 allTheNominations contains: {F, U, W, S, E, H, Q, A, C, R, Y, V, B, P, M}, with numberOfNominations = allTheNominations.Count = 15.
 
 -- All voters have cast their ballots --
@@ -98,152 +99,152 @@ We have that numberOfNominations = 15.  So now we process each nomination's scor
 allTheNominations has an integer value called Score for each possible nomination, initialized at 0 for each one.
 
 allTheNominations[0] = F gets calculated as follows:
-user[0].listOfOwnChoices contains F in index 0, so allTheNominations[0] += numberOfNominations - 0 = 0 + 15 - 0 = 15
-user[1].listOfOwnChoices does not contain F, so user[1] did not vote for F.
-user[2].listOfOwnChoices does not contain F, so user[2] did not vote for F.
-user[3].listOfOwnChoices contains F in index 1, so allTheNominations[0] += numberOfNominations - 1 = 15 + 15 - 1 = 29
-user[4].listOwnChoices does not contain F, so user[4] did not vote for F.
-user[5].listOfOwnChoices does not contain F, so user[5] did not vote for F.
+ballot[0].listOfOwnChoices contains F in index 0, so allTheNominations[0] += numberOfNominations - 0 = 0 + 15 - 0 = 15
+ballot[1].listOfOwnChoices does not contain F, so ballot[1] did not vote for F.
+ballot[2].listOfOwnChoices does not contain F, so ballot[2] did not vote for F.
+ballot[3].listOfOwnChoices contains F in index 1, so allTheNominations[0] += numberOfNominations - 1 = 15 + 15 - 1 = 29
+ballot[4].listOwnChoices does not contain F, so ballot[4] did not vote for F.
+ballot[5].listOfOwnChoices does not contain F, so ballot[5] did not vote for F.
 nominee F's votes have been counted, and get a total score of 29.
 allTheNominations have scores {29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 
 alltheNominations[1] = U gets calculated as follows:
-user[0].listOfOwnChoices contains U in index 1, so allTheNominations[1] += numberOfNominations - 1 = 0 + 15 - 1 = 14
-user[1].listOfOwnChoices contains U in index 2, so allTheNominations[1] += numberOfNominations - 2 = 14 + 15 - 2 = 27
-user[2].listOfOwnChoices contains U in index 3, so allTheNominations[1] += numberOfNominations - 3 = 27 + 15 - 3 = 39
-user[3].listOfOwnChoices does not contain U, so user[3] did not vote for U.
-user[4].listOfOwnChoices does not contain U, so user[4] did not vote for U.
-user[5].listOfOwnChoices contains U in index 6, so allTheNominations[1] += numberOfNominations - 6 = 39 + 15 - 6 = 48
+ballot[0].listOfOwnChoices contains U in index 1, so allTheNominations[1] += numberOfNominations - 1 = 0 + 15 - 1 = 14
+ballot[1].listOfOwnChoices contains U in index 2, so allTheNominations[1] += numberOfNominations - 2 = 14 + 15 - 2 = 27
+ballot[2].listOfOwnChoices contains U in index 3, so allTheNominations[1] += numberOfNominations - 3 = 27 + 15 - 3 = 39
+ballot[3].listOfOwnChoices does not contain U, so ballot[3] did not vote for U.
+ballot[4].listOfOwnChoices does not contain U, so ballot[4] did not vote for U.
+ballot[5].listOfOwnChoices contains U in index 6, so allTheNominations[1] += numberOfNominations - 6 = 39 + 15 - 6 = 48
 nominee U's votes have been counted, and get a total score of 48.
 allTheNominations have scores {29, 48, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 
 allTheNominations[2] = W gets calculated as follows:
-user[0].listOfOwnChoices contains W in index 2, so allTheNominations[2] += numberOfNominations - 2 = 0 + 15 - 2 = 13
-user[1].listOfOwnChoices contains W in index 3, so allTheNominations[2] += numberOfNominations - 3 = 13 + 15 - 3 = 25
-user[2].listOfOwnChoices contains W in index 0, so allTheNominations[2] += numberOfNominations - 0 = 25 + 15 - 0 = 40
-user[3].listOfOwnChoices does not contain W, so user[3] did not vote for W.
-user[4].listOfOwnChoices does not contain W, so user[4] did not vote for W.
-user[5].listOfOwnChoices contains W in index 8, so allTheNominations[2] += numberOfNominations - 8 = 40 + 15 - 8 = 47
+ballot[0].listOfOwnChoices contains W in index 2, so allTheNominations[2] += numberOfNominations - 2 = 0 + 15 - 2 = 13
+ballot[1].listOfOwnChoices contains W in index 3, so allTheNominations[2] += numberOfNominations - 3 = 13 + 15 - 3 = 25
+ballot[2].listOfOwnChoices contains W in index 0, so allTheNominations[2] += numberOfNominations - 0 = 25 + 15 - 0 = 40
+ballot[3].listOfOwnChoices does not contain W, so ballot[3] did not vote for W.
+ballot[4].listOfOwnChoices does not contain W, so ballot[4] did not vote for W.
+ballot[5].listOfOwnChoices contains W in index 8, so allTheNominations[2] += numberOfNominations - 8 = 40 + 15 - 8 = 47
 nominee W's votes have been counted, and get a total score of 47.
 allTheNominations have scores {29, 48, 47, 0, 0, 0, 0, 0, 0, 0, 0, 0 ,0, 0, 0}
 
 allTheNominations[3] = S gets calculated as follows:
-user[0].listOfOwnChoices does not contain S, so user[0] did not vote for S.
-user[1].listOfOwnChoices contains S in index 0, so allTheNominations[3] += numberOfNominations - 0 = 0 + 15 - 0 = 15
-user[2].listOfOwnChoices does not contain S, so user[2] did not vote for S.
-user[3].listOfOwnChoices does not contain S, so user[3] did not vote for S.
-user[4].listOfOwnChoices does not contain S, so user[4] did not vote for S.
-user[5].listOfOwnChoices contains S in index 10, so allTheNominations[3] += numberOfNominations - 10 = 15 + 15 - 10 = 20
+ballot[0].listOfOwnChoices does not contain S, so ballot[0] did not vote for S.
+ballot[1].listOfOwnChoices contains S in index 0, so allTheNominations[3] += numberOfNominations - 0 = 0 + 15 - 0 = 15
+ballot[2].listOfOwnChoices does not contain S, so ballot[2] did not vote for S.
+ballot[3].listOfOwnChoices does not contain S, so ballot[3] did not vote for S.
+ballot[4].listOfOwnChoices does not contain S, so ballot[4] did not vote for S.
+ballot[5].listOfOwnChoices contains S in index 10, so allTheNominations[3] += numberOfNominations - 10 = 15 + 15 - 10 = 20
 nominee S's votes have been counted, and get a total score of 20.
 allTheNominations have scores {29, 48, 47, 20, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 
 allTheNominations[4] = E gets calculated as follows:
-user[0].listOfOwnChoices does not contain E, so user[0] did not vote for E.
-user[1].listOfOwnChoices contains E in index 1, so allTheNominations[4] += numberOfNominations - 1 = 0 + 15 - 1 = 14
-user[2].listOfOwnChoices contains E in index 1, so allTheNominations[4] += numberOfNominations - 1 = 14 + 15 - 1 = 28
-user[3].listOfOwnChoices does not contain E, so user[3] did not vote for E.
-user[4].listOfOwnChoices does not contain E, so user[4] did not vote for E.
-user[5].listOfOwnChoices does not contain E, so user[5] did not vote for E.
+ballot[0].listOfOwnChoices does not contain E, so ballot[0] did not vote for E.
+ballot[1].listOfOwnChoices contains E in index 1, so allTheNominations[4] += numberOfNominations - 1 = 0 + 15 - 1 = 14
+ballot[2].listOfOwnChoices contains E in index 1, so allTheNominations[4] += numberOfNominations - 1 = 14 + 15 - 1 = 28
+ballot[3].listOfOwnChoices does not contain E, so ballot[3] did not vote for E.
+ballot[4].listOfOwnChoices does not contain E, so ballot[4] did not vote for E.
+ballot[5].listOfOwnChoices does not contain E, so ballot[5] did not vote for E.
 nominee S's votes have been counted, and get a total score of 28.
 allTheNominations have scores {29, 48, 47, 20, 28, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 
 allTheNominations[5] = H gets calculated as follows:
-user[0].listOfOwnChoices does not contain H, so user[0] did not vote for H.
-user[1].listOfOwnChoices contains H in index 4, so allTheNominations[5] += numberOfNominations - 4 = 0 + 15 - 4 = 11
-user[2].listOfOwnChoices contains H in index 2, so allTheNominations[5] += numberOfNominations - 2 = 11 + 15 - 2 = 24
-user[3].listOfOwnChoices does not contain H, so user[3] did not vote for H.
-user[4].listOfOwnChoices does not contain H, so user[4] did not vote for H.
-user[5].listOfOwnChoices contains H in index 5, so allTheNominations[5] += numberOfNominations - 5 = 24 + 15 - 5 = 34
+ballot[0].listOfOwnChoices does not contain H, so ballot[0] did not vote for H.
+ballot[1].listOfOwnChoices contains H in index 4, so allTheNominations[5] += numberOfNominations - 4 = 0 + 15 - 4 = 11
+ballot[2].listOfOwnChoices contains H in index 2, so allTheNominations[5] += numberOfNominations - 2 = 11 + 15 - 2 = 24
+ballot[3].listOfOwnChoices does not contain H, so ballot[3] did not vote for H.
+ballot[4].listOfOwnChoices does not contain H, so ballot[4] did not vote for H.
+ballot[5].listOfOwnChoices contains H in index 5, so allTheNominations[5] += numberOfNominations - 5 = 24 + 15 - 5 = 34
 nominee H's votes have been counted, and get a total score of 34.
 allTheNominations have scores {29, 48, 47, 20, 28, 34, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 
 allTheNominations[6] = Q gets calculated as follows:
-user[0].listOfOwnChoices does not contain Q, so user[0] did not vote for Q.
-user[1].listOfOwnChoices contains Q in index 5, so allTheNominations[6] += numberOfNominations - 5 = 0 + 15 - 5 = 10
-user[2].listOfOwnChoices does not contain Q, so user[2] did not vote for Q.
-user[3].listOfOwnChoices does not contain Q, so user[3] did not vote for Q.
-user[4].listOfOwnChoices does not contain Q, so user[4] did not vote for Q.
-user[5].listOfOwnChoices contains Q in index 2, so allTheNominations[6] += numberOfNominations - 6 = 0 + 15 - 6 = 10 + 15 - 6 = 19
+ballot[0].listOfOwnChoices does not contain Q, so ballot[0] did not vote for Q.
+ballot[1].listOfOwnChoices contains Q in index 5, so allTheNominations[6] += numberOfNominations - 5 = 0 + 15 - 5 = 10
+ballot[2].listOfOwnChoices does not contain Q, so ballot[2] did not vote for Q.
+ballot[3].listOfOwnChoices does not contain Q, so ballot[3] did not vote for Q.
+ballot[4].listOfOwnChoices does not contain Q, so ballot[4] did not vote for Q.
+ballot[5].listOfOwnChoices contains Q in index 2, so allTheNominations[6] += numberOfNominations - 6 = 0 + 15 - 6 = 10 + 15 - 6 = 19
 nominee Q's votes have been counted, and get a total score of 19.
 allTheNominations have scores {29, 48, 47, 20, 28, 34, 19, 0, 0, 0, 0, 0, 0, 0, 0}
 
 allTheNominations[7] = A gets calculated as follows:
-user[0].listOfOwnChoices does not contain A, so user[0] did not vote for A.
-user[1].listOfOwnChoices does not contain A, so user[1] did not vote for A.
-user[2].listOfOwnChoices does not contain A, so user[2] did not vote for A.
-user[3].listOfOwnChoices contains A in index 0, so allTheNominations[7] += numberOfNominations - 0 = 0 + 15 - 0 = 15
-user[4].listOfOwnChoices does not contain A, so user[4] did not vote for A.
-user[5].listOfOwnChoices does not contain A, so user[5] did not vote for A.
+ballot[0].listOfOwnChoices does not contain A, so ballot[0] did not vote for A.
+ballot[1].listOfOwnChoices does not contain A, so ballot[1] did not vote for A.
+ballot[2].listOfOwnChoices does not contain A, so ballot[2] did not vote for A.
+ballot[3].listOfOwnChoices contains A in index 0, so allTheNominations[7] += numberOfNominations - 0 = 0 + 15 - 0 = 15
+ballot[4].listOfOwnChoices does not contain A, so ballot[4] did not vote for A.
+ballot[5].listOfOwnChoices does not contain A, so ballot[5] did not vote for A.
 nominee A's votes have beencounted, and get a total score of 15.
 allTheNominations have scores {29, 48, 47, 20, 28, 34, 19, 15, 0, 0, 0, 0, 0, 0, 0}
 
 allTheNominations[8] = C gets calculated as follows:
-user[0].listOfOwnChoices does not contain C, so user[0] did not vote for A.
-user[1].listOfOwnChoices does not contain C, so user[1] did not vote for A.
-user[2].listOfOwnChoices does not contain C, so user[2] did not vote for A.
-user[3].listOfOwnChoices does not contain C, so user[3] did not vote for A.
-user[5].listOfChoices contains C in index 0, so allTheNominations[8] += numberOfNominations - 0 = 0 + 15 - 0 = 15
-user[5].listOfOwnChoices does not contain C, so user[5] did not vote for A.
+ballot[0].listOfOwnChoices does not contain C, so ballot[0] did not vote for A.
+ballot[1].listOfOwnChoices does not contain C, so ballot[1] did not vote for A.
+ballot[2].listOfOwnChoices does not contain C, so ballot[2] did not vote for A.
+ballot[3].listOfOwnChoices does not contain C, so ballot[3] did not vote for A.
+ballot[5].listOfChoices contains C in index 0, so allTheNominations[8] += numberOfNominations - 0 = 0 + 15 - 0 = 15
+ballot[5].listOfOwnChoices does not contain C, so ballot[5] did not vote for A.
 nominee C's votes have been counted, and get a total score of 15
 allTheNominations have scores {29, 48, 47, 20, 28, 34, 19, 15, 15, 0, 0, 0, 0, 0, 0}
 
 allTheNominations[9] = R gets calculated as follows:
-user[0].listOfOwnChoices does not contain R, so user[0] did not vote for R.
-user[1].listOfOwnChoices does not contain R, so user[1] did not vote for R.
-user[2].listOfOwnChoices does not contain R, so user[2] did not vote for R.
-user[3].listOfOwnChoices does not contain R, so user[3] did not vote for R.
-user[4].listOfOwnChoices does not contain R, so user[4] did not vote for R.
-user[5].listOfChoices contains R in index 0, so allTheNominations[9] += numberOfNominations - 0 = 0 + 15 - 0 = 15
+ballot[0].listOfOwnChoices does not contain R, so ballot[0] did not vote for R.
+ballot[1].listOfOwnChoices does not contain R, so ballot[1] did not vote for R.
+ballot[2].listOfOwnChoices does not contain R, so ballot[2] did not vote for R.
+ballot[3].listOfOwnChoices does not contain R, so ballot[3] did not vote for R.
+ballot[4].listOfOwnChoices does not contain R, so ballot[4] did not vote for R.
+ballot[5].listOfChoices contains R in index 0, so allTheNominations[9] += numberOfNominations - 0 = 0 + 15 - 0 = 15
 nominee C's votes have been counted, and get a total score of 15
 allTheNominations have scores {29, 48, 47, 20, 28, 34, 19, 15, 15, 15, 0, 0, 0, 0, 0}
 
 allTheNominations[10] = Y gets calculated as follows:
-user[0].listOfOwnChoices does not contain Y, so user[0] did not vote for Y.
-user[1].listOfOwnChoices does not contain Y, so user[1] did not vote for Y.
-user[2].listOfOwnChoices does not contain Y, so user[2] did not vote for Y.
-user[3].listOfOwnChoices does not contain Y, so user[3] did not vote for Y.
-user[4].listOfOwnChoices does not contain Y, so user[4] did not vote for Y.
-user[5].listOfChoices contains Y in index 1, so allTheNominations[10] += numberOfNominations - 0 = 0 + 15 - 1 = 14
+ballot[0].listOfOwnChoices does not contain Y, so ballot[0] did not vote for Y.
+ballot[1].listOfOwnChoices does not contain Y, so ballot[1] did not vote for Y.
+ballot[2].listOfOwnChoices does not contain Y, so ballot[2] did not vote for Y.
+ballot[3].listOfOwnChoices does not contain Y, so ballot[3] did not vote for Y.
+ballot[4].listOfOwnChoices does not contain Y, so ballot[4] did not vote for Y.
+ballot[5].listOfChoices contains Y in index 1, so allTheNominations[10] += numberOfNominations - 0 = 0 + 15 - 1 = 14
 nominee C's votes have been counted, and get a total score of 14
 allTheNominations have scores {29, 48, 47, 20, 28, 34, 19, 15, 15, 15, 14, 0, 0, 0, 0}
 
 allTheNominations[11] = V gets calculated as follows:
-user[0].listOfOwnChoices does not contain V, so user[0] did not vote for V.
-user[1].listOfOwnChoices does not contain V, so user[1] did not vote for V.
-user[2].listOfOwnChoices does not contain V, so user[2] did not vote for V.
-user[3].listOfOwnChoices does not contain V, so user[3] did not vote for V.
-user[4].listOfOwnChoices does not contain V, so user[4] did not vote for V.
-user[5].listOfChoices contains V in index 3, so allTheNominations[11] += numberOfNominations - 3 = 0 + 15 - 3 = 12
+ballot[0].listOfOwnChoices does not contain V, so ballot[0] did not vote for V.
+ballot[1].listOfOwnChoices does not contain V, so ballot[1] did not vote for V.
+ballot[2].listOfOwnChoices does not contain V, so ballot[2] did not vote for V.
+ballot[3].listOfOwnChoices does not contain V, so ballot[3] did not vote for V.
+ballot[4].listOfOwnChoices does not contain V, so ballot[4] did not vote for V.
+ballot[5].listOfChoices contains V in index 3, so allTheNominations[11] += numberOfNominations - 3 = 0 + 15 - 3 = 12
 nominee V's votes have been counted, and get a total score of 12
 allTheNominations have scores {29, 48, 47, 20, 28, 34, 19, 15, 15, 15, 14, 12, 0, 0, 0}
 
 allTheNominations[12] = B gets calculated as follows:
-user[0].listOfOwnChoices does not contain B, so user[0] did not vote for B.
-user[1].listOfOwnChoices does not contain B, so user[1] did not vote for B.
-user[2].listOfOwnChoices does not contain B, so user[2] did not vote for B.
-user[3].listOfOwnChoices does not contain B, so user[3] did not vote for B.
-user[4].listOfOwnChoices does not contain B, so user[4] did not vote for B.
-user[5].listOfChoices contains B in index 4, so allTheNominations[12] += numberOfNominations - 4 = 0 + 15 - 4 = 11
+ballot[0].listOfOwnChoices does not contain B, so ballot[0] did not vote for B.
+ballot[1].listOfOwnChoices does not contain B, so ballot[1] did not vote for B.
+ballot[2].listOfOwnChoices does not contain B, so ballot[2] did not vote for B.
+ballot[3].listOfOwnChoices does not contain B, so ballot[3] did not vote for B.
+ballot[4].listOfOwnChoices does not contain B, so ballot[4] did not vote for B.
+ballot[5].listOfChoices contains B in index 4, so allTheNominations[12] += numberOfNominations - 4 = 0 + 15 - 4 = 11
 nominee B's votes have been counted, and get a total score of 11
 allTheNominations have scores {29, 48, 47, 20, 28, 34, 19, 15, 15, 15, 14, 12, 11, 0, 0}
 
 allTheNominations[13] = P gets calculated as follows:
-user[0].listOfOwnChoices does not contain P, so user[0] did not vote for P.
-user[1].listOfOwnChoices does not contain P, so user[1] did not vote for P.
-user[2].listOfOwnChoices does not contain P, so user[2] did not vote for P.
-user[3].listOfOwnChoices does not contain P, so user[3] did not vote for P.
-user[4].listOfOwnChoices does not contain P, so user[4] did not vote for P.
-user[5].listOfChoices contains P in index 7, so allTheNominations[13] += numberOfNominations - 7 = 0 + 15 - 7 = 8
+ballot[0].listOfOwnChoices does not contain P, so ballot[0] did not vote for P.
+ballot[1].listOfOwnChoices does not contain P, so ballot[1] did not vote for P.
+ballot[2].listOfOwnChoices does not contain P, so ballot[2] did not vote for P.
+ballot[3].listOfOwnChoices does not contain P, so ballot[3] did not vote for P.
+ballot[4].listOfOwnChoices does not contain P, so ballot[4] did not vote for P.
+ballot[5].listOfChoices contains P in index 7, so allTheNominations[13] += numberOfNominations - 7 = 0 + 15 - 7 = 8
 nominee P's votes have been counted, and get a total score of 8
 allTheNominations have scores {29, 48, 47, 20, 28, 34, 19, 15, 15, 15, 14, 12, 11, 8, 0}
 
 allTheNominations[14] = M gets calculated as follows:
-user[0].listOfOwnChoices does not contain M, so user[0] did not vote for M.
-user[1].listOfOwnChoices does not contain M, so user[1] did not vote for M.
-user[2].listOfOwnChoices does not contain M, so user[2] did not vote for M.
-user[3].listOfOwnChoices does not contain M, so user[3] did not vote for M.
-user[4].listOfOwnChoices does not contain M, so user[4] did not vote for M.
-user[5].listOfChoices contains M in index 9, so allTheNominations[14] += numberOfNominations - 9 = 0 + 15 - 9 = 6
+ballot[0].listOfOwnChoices does not contain M, so ballot[0] did not vote for M.
+ballot[1].listOfOwnChoices does not contain M, so ballot[1] did not vote for M.
+ballot[2].listOfOwnChoices does not contain M, so ballot[2] did not vote for M.
+ballot[3].listOfOwnChoices does not contain M, so ballot[3] did not vote for M.
+ballot[4].listOfOwnChoices does not contain M, so ballot[4] did not vote for M.
+ballot[5].listOfChoices contains M in index 9, so allTheNominations[14] += numberOfNominations - 9 = 0 + 15 - 9 = 6
 nominee M's votes have been counted, and get a total score of 6
 allTheNominations have scores {29, 48, 47, 20, 28, 34, 19, 15, 15, 15, 14, 12, 11, 8, 6}
 
