@@ -1,1 +1,102 @@
 This document describes the voting system.
+
+Choice is an object that stores the name of a given choice, as a string.
+The application will store each distinctly named choice in List<Choice> allTheNominations.
+Each user will be stored in List<User> users.
+
+For each user participating in the voting process, they have X desired choices stored in a List of size X called listOfOwnChoices, 
+with index 0 being their first and highest priority, and index 2 being their lowest priority.
+
+Users get to vote for any choice/nomination they come up with.
+If a choice they want to include is not already in the list allTheNominations, then it gets added/nominated.  
+If it's already in the list, then it does not get added again.
+After all users have voted, numberOfNominations is calculated as the size of the allTheNominations list.
+Then, each user's first choice gets a value of numberOfNominations.
+Their second choice gets a value of numberOfNominations - 1 = numberOfNominations - indexOfTheirSecondChoice.
+Their third choice gets a value of maxChoiceNumber - 2 = numberOfNominations - indexOfTheirThirdChoice... until they are out of choices.
+
+For the final count, each possible choice gets their values from each voter added up.  Then, the choice with the highest number wins the vote.
+The choice with the second highest number wins the second highest vote.
+
+In the event of a tie, this is done a second time but with only the choices involved in the tie.
+
+As an example, lets say we have 6 users, user 0, user 1, user 2, user 3, user 4, user 5
+
+Their choices in order of highest desire to lowest desire is stored in a list listOfOwnChoices.
+user [0] (3 choices): {F, U, W}
+user [1] (6 choices): {S, E, U, W, H, Q}
+user [2] (4 choices): {W, E, H, U}
+user [3] (2 choices): {A, F}
+user [4] (1 choice) ; {C}
+user [5] (11 choices):{R, Y, Q, V, B, H, U, P, W, M, S}
+
+Here is how the process goes.
+
+user[0] processes their vote:
+F: allTheNominations does not contain F, so allTheNominations gets F added to it.
+U: allTheNominations does not contain U, so allTheNominations gets U added to it.
+W: allTheNominations does not contain W, so allTheNominations gets W added to it.
+end of user[0]'s listOfOwnChoices has been reached.
+allTheNominations contains: {F, U, W}, with numberOfNominations = allTheNominations.Count = 3
+
+user[1] processes their vote:
+S: allTheNominations does not contain S, so allTheNominations gets S added to it.
+E: allTheNominations does not contain E, so allTheNominations gets E added to it.
+U: allTheNominations already contains U.
+W: allTheNominations already contains W.
+H: allTheNominations does not contain H, so allTheNominations gets H added to it.
+Q: allTheNominations does not contain Q, so allTheNominations gets Q added to it.
+end of user[1]'s listOfOwnChoices has been reached.
+allTheNominations contains: {F, U, W, S, E, H, Q}, with numberOfNominations = allTheNominations.Count = 7
+
+user[2] processes their vote:
+W: allTheNominations already contains W.
+E: allTheNominations already contains E.
+H: allTheNominations already contains H.
+U: allTheNominations already contains U.
+end of user[2]'s listOfOwnChoices has been reached.
+allTheNominations contains: {F, U, W, S, E, H, Q}, with numberOfNominations = allTheNominations.Count = 7
+
+user[3] processes their vote:
+A: allTheNominations does not contain A, so allTheNominations gets A added to it.
+F: allTheNominations already contains F.
+end of user[3]'s listOfOwnChoices has been reached.
+allTheNominations contains: {F, U, W, S, E, H, Q, A}, with numberOfNominations = allTheNominations.Count = 8
+
+user[4] processes their vote:
+C: allTheNominations does not contain C, so allTheNominations gets C added to it.
+end of user[4]'s listOfOwnChoices has been reached.
+allTheNominations contains: {F, U, W, S, E, H, Q, A, C}, with numberOfNominations = allTheNominations.Count = 9
+
+user[5] processes their vote:
+R: allTheNominations does not contain R, so allTheNominations gets R added to it.
+Y: allTheNominations does not contain Y, so allTheNominations gets Y added to it.
+Q: allTheNominations already contains Q.
+V: allTheNominations does not contain V, so allTheNominations gets V added to it.
+B: allTheNominations does not contain B, so allTheNominations gets B added to it.
+H: allTheNominations already contains H.
+U: allTheNominations already contains U.
+P: allTheNominations does not contain P, so allTheNominations gets P added to it.
+W: allTheNominations already contains W.
+M: allTheNominations does not contain M, so allTheNominations gets M added to it.
+S: allTheNominations already contains S.
+end of user[5]s listOfOwnChoices has ben reached.
+allTheNominations contains: {F, U, W, S, E, H, Q, A, C, R, Y, V, B, P, M}, with numberOfNominations = allTheNominations.Count = 15.
+
+-- All voters have cast their ballots --
+
+This is what happens after.
+We have that numberOfNominations = 15.  So now we process each nomination's score.
+allTheNominations has an integer value called Score for each possible nomination, initialized at 0 for each one.
+
+allTheNominations[0] = F gets calculated as follows:
+user[0].listOfOwnChoices contains F in index 0, so allTheNominations[0] += numberOfNominations - 0 = 0 + 15 - 0 = 15
+user[1].listOfOwnChoices does not contain F, so user[1] did not vote for F.
+user[2].listOfOwnChoices does not contain F, so user[2] did not vote for F.
+user[3].listOfOwnChoices contains F in index 1, so allTheNominations[0] += numberOfNominations - 1 = 15 + 15 - 1 = 29
+user[4].listOwnChoices does not contain F, so user[4] did not vote for F.
+user[5].listOfOwnChoices does not contain F, so user[5] did not vote for F.
+nominee F's votes have been counted, and get a total score of 29.
+
+alltheNominations[1] = U gets calculated as follows:
+user[1].listOfOwnChoices 
